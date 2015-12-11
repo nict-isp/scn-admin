@@ -1,0 +1,24 @@
+How to use it?
+Make sure to run juggernaut.
+
+How to install juggernaut?
+
+  $ mkdir lib
+  $ git clone https://github.com/rhyboo/juggernaut.git
+  $ cd lib/juggernaut/
+  $ node install
+  $ cd ../../
+  $ node lib/juggernaut/server.js
+
+How to startup(Debug mode)
+
+  $ python manage runserver
+
+  Open 172.18.102.1:5000 by Web browser.
+
+How to startup(Production mode)
+  $ cd ../
+  $ supervisorctl -c conf/supervisord.conf
+  $ start webapp
+
+  Open 172.18.102.1 by Web browser.

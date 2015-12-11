@@ -1,0 +1,223 @@
+<DOCTYPE html>
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Service Controlled Network Visualizer</title>
+        <!-- vendor libs -->
+        <script src="js/vendor/jquery.js"></script>
+        <script src="js/vendor/jquery-ui.js"></script>
+        <script src="js/vendor/underscore-min.js"></script>
+        <script src="js/vendor/backbone-min.js"></script>
+        <script src="js/vendor/raphael-min.js"></script>
+        <script src="js/vendor/three.min.js"></script>
+        <script src="js/vendor/three/OrbitControls.js"></script>
+        <!-- app -->
+        <script src="js/myutil.js"></script>
+        <script src="js/template.js"></script>
+        <script src="js/overlay.svg.js"></script>
+        <script src="js/model.js"></script>
+        <script src="js/three.util.js"></script>
+        <script src="js/graph.js"></script>
+        <script src="js/app.js"></script>
+        <!-- load -->
+        <script type="text/javascript" src="application.js"></script>
+        <script type="text/javascript" src="/static/js/app.js"></script>
+
+        <link rel="stylesheet" href="css/default.css" type="text/css" />
+        <script>
+            $(document).ready(function() {
+                var app = new SCNV.App();
+                app.interval(10, 20);
+
+                var dumper = new MyUtil.Dumper().setPushSaveMode(10000, function(i) {
+                    return i + ".json";
+                });;
+
+                // radio button
+                $("#speed1").click(function() {
+                    $(".speed").find(".menuBtn").removeClass("select");
+                    $(this).addClass("select");
+                    app.interval(10, 20); // high speed
+                });
+                $("#speed2").click(function() {
+                    $(".speed").find(".menuBtn").removeClass("select");
+                    $(this).addClass("select");
+                    app.interval(100, 1);
+                });
+                $("#speed3").click(function() {
+                    $(".speed").find(".menuBtn").removeClass("select");
+                    $(this).addClass("select");
+                    app.interval(10000000, 1);
+                });
+                // radio button
+                $("#filter1").click(function() {
+                    $(".filter").find(".menuBtn").removeClass("select");
+                    $(this).addClass("select");
+                    app.setFilterMode(false);
+                });
+                $("#filter2").click(function() {
+                    $(".filter").find(".menuBtn").removeClass("select");
+                    $(this).addClass("select");
+                    app.setFilterMode(true);
+                });
+                // radio button
+                $("#lwidth10").click(function() {
+                    $(".lwidth").find(".menuBtn").removeClass("select");
+                    $(this).addClass("select");
+                    app.setMaxLineWidth(10);
+                });
+                $("#lwidth100").click(function() {
+                    $(".lwidth").find(".menuBtn").removeClass("select");
+                    $(this).addClass("select");
+                    app.setMaxLineWidth(100);
+                });
+                $("#lwidth1000").click(function() {
+                    $(".lwidth").find(".menuBtn").removeClass("select");
+                    $(this).addClass("select");
+                    app.setMaxLineWidth(1000);
+                });
+                $("#lwidth10000").click(function() {
+                    $(".lwidth").find(".menuBtn").removeClass("select");
+                    $(this).addClass("select");
+                    app.setMaxLineWidth(10000);
+                });
+
+                $("#qos100").click(function() {
+                    $(".lwidth").find(".menuBtn").removeClass("select");
+                    $(this).addClass("select");
+                    app.setQos(100);
+                });
+                $("#qos1000").click(function() {
+                    $(".lwidth").find(".menuBtn").removeClass("select");
+                    $(this).addClass("select");
+                    app.setQos(1000);
+                });
+                $("#qos5000").click(function() {
+                    $(".lwidth").find(".menuBtn").removeClass("select");
+                    $(this).addClass("select");
+                    app.setQos(5000);
+                });
+
+
+                // 
+                $("#countDetail").click(function() {
+                    if ($("#stats").css("display") === "block") {
+                        $("#stats").hide();
+                    } else {
+                        $("#stats").show();
+                    }
+                });
+                $("#stats").hide();
+                app.setMaxLineWidth(10);
+
+                new MyUtil.Thread({
+                    interval: 2000,
+                    skip: 1,
+                    loopRunner: function() {
+                        $("#count").html(app.storedSize());
+                    }
+                }).start();
+
+                // on time mode
+                loadApp({
+                    append: function(a) {
+                        app.append(a);
+                        //            dumper.pushJSON({"idx":i});       
+                        //              dumper.pushJSON(a); // json file saver
+                    }
+                });
+
+                // file loader
+                var loadFromFile = [];
+                new MyUtil.Thread({
+                    interval: 100,
+                    skip: 40,
+                    loopRunner: function() {
+                        var s = loadFromFile.shift();
+                        if (s) {
+                            app.append(s);
+                        }
+                    }
+                }).start();
+
+                $("#cache1").click(function() {
+                    // file mode
+                    MyUtil.loadDump([
+                        "dat/10sw/0.json",
+                        "dat/10sw/1.json",
+                        "dat/10sw/2.json",
+                        "dat/10sw/3.json",
+                        "dat/10sw/4.json"
+                    ], function(a) {
+                        loadFromFile.push(a);
+                    });
+                });
+                /*
+                	// commands のフォーマットが異なるためエラー頻発
+                            $("#cache2").click(function() {
+                                // file mode
+                                MyUtil.loadDump([
+                                    "dat/6sw/0.json"
+                                ],function(a) {
+                	          loadFromFile.push(a);
+                                });
+                            });
+                */
+            });
+        </script>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+    </head>
+
+    <body>
+        <div id="container">
+            <div id="stats" class="dialog"></div>
+            <table>
+                <!-- dummy columns must be here for layout -->
+                <tr>
+                    <td>
+                        <div class="title">サービスロケーション一覧</div>
+                        <div id="locationList">
+                            <!-- class="btnContainer"> -->
+                        </div>
+                    </td>
+                    <td>
+                        <div class="title">ネットワーク・トポロジー&emsp;<span class="curveMode button">curve mode</span></div>
+                        <div id="networkTopology"></div>
+                    </td>
+                    <td>
+                        <div class="title">サービス連携詳細</div>
+                        <div id="overlayDetail"></div>
+                    </td>
+                    <td>
+                        <div id="overlayUnselectAll" class="title">サービス連携一覧&nbsp;<span class="clearOverlay button">clear</span></div>
+                        <div id="overlayList">
+                            <!-- class="btnContainer"> -->
+                        </div>
+                        <div class="title">サービス一覧</div>
+                        <div id="serviceList">
+                            <!-- class="btnContainer"> -->
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan=4>
+                        <div class="box">
+                            <div class="title">サービスパス トラフィック(Mbps)</div>
+                            <div id="trafficStream"></div>
+                        </div>
+                        <div class="box">
+                            <div class="title">ネットワーク制御コマンド</div>
+                            <div id="commandStream"></div>
+                        </div>
+                        <div class="box">
+                            <div class="title">DSNルール実行ログ</div>
+                            <div id="overlayStream"></div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <img src="img/nict.png" style="height:100px; position: absolute; bottom:20px; right:20px;" />
+    </body>
+
+    </html>

@@ -1,0 +1,480 @@
+/**
+* 共通スタイル設定
+*/
+
+* {
+    font-family: "Verdana";
+    font-size: 9px;
+    //    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    color: #999;
+}
+
+body {
+    background: #000;
+}
+
+#container {
+    width: 1920px;
+    height: 1080px;
+    padding: 0 5px 5px 10px;
+    background: -moz-linear-gradient(top, rgba(119, 119, 119, 1) 0%, rgba(84, 84, 84, 1) 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(119, 119, 119, 1)), color-stop(100%, rgba(84, 84, 84, 1)));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(119, 119, 119, 1) 0%, rgba(84, 84, 84, 1) 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(119, 119, 119, 1) 0%, rgba(84, 84, 84, 1) 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(119, 119, 119, 1) 0%, rgba(84, 84, 84, 1) 100%);
+    /* IE10+ */
+    background: linear-gradient(to bottom, rgba(119, 119, 119, 1) 0%, rgba(84, 84, 84, 1) 100%);
+    /* W3C */
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#777777', endColorstr='#545454', GradientType=0);
+    /* IE6-9 */
+}
+
+#footer {
+    width: 1920px;
+    height: 0px;
+    background: #444;
+    border-top: 1px solid #333;
+}
+
+.selected {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.button {
+    cursor: pointer;
+    color: inherit;
+    underline: none;
+}
+
+.hovered {
+    color: #bbb;
+}
+
+.title {
+    padding-top: 5px;
+    font-family: "Verdana";
+    font-weight: bold;
+    display: inline-block;
+    padding-bottom: 0.5em;
+    font-size: 11px;
+    color: #012;
+    text-shadow: rgba( 0, 0, 0, 0.1) -1px -1px 0, rgba(255, 255, 255, 0.15) 1px 1px 0;
+}
+
+span {
+    display: inline-block;
+}
+
+td {
+    vertical-align: top;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-button {
+    width: 8px;
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-track:hover {
+    background: transparent; //rgba(0,0,0,0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    width: 8px;
+    background: rgba(0, 0, 0, 0.1); //transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+
+/*
+::-webkit-scrollbar-button:horizontal,
+::-webkit-scrollbar-corner:horizontal,
+::-webkit-scrollbar-thumb:horizontal,
+::-webkit-scrollbar-track:horizontal {
+    height: 8px;
+}
+*/
+
+
+/**
+ * テキスト選択禁止
+ */
+
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/**
+ * 複合コンポーネント
+ */
+
+#networkTopology,
+#overlayDetail {
+    height: 400px;
+    box-shadow: 0px 0px 10px rgba(0, 10, 20, 1) inset;
+    border: 1px solid rgba(0, 10, 20, 0.8);
+    border-bottom: 1px solid #aaa;
+    border-radius: 4px;
+    //    background: rgba(0,10,20,0.7);
+    background: rgba(0, 10, 20, 0.5);
+    color: #606566;
+    padding: 10px;
+    margin-right: 5px;
+}
+
+.switchLabel,
+.nodeLabel {
+    position: absolute;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 4px 8px;
+    color: #fff;
+    font-weight: bold;
+    top: 0px;
+    left: 0px;
+}
+
+.newIcon {
+    background: #e70;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 8px;
+    padding: 0 4px;
+}
+
+.nodeLabel {
+    color: #777;
+}
+
+#networkTopology {
+    width: 550px;
+    overflow: hidden;
+}
+
+#overlayDetail {
+    width: 250px;
+    overflow: auto;
+}
+
+.overlayDetail {
+    width: 240px;
+    margin: 0 5px 5px 0;
+    height: 90px;
+    overflow: hidden;
+    float: left;
+}
+
+.overlayDetail * {
+    float: right;
+}
+
+.overlayDetail .graph {
+    width: 80px;
+    height: 80px;
+    float: left;
+}
+
+.overlayDetail .text {
+    width: 140px;
+    height: 70px;
+    font-size: 9px;
+    overflow-y: auto;
+    color: #666;
+}
+
+.overlayDetail .label {
+    width: 140px;
+    font-weight: bold;
+    color: #aaa;
+}
+
+.overlayDetail .hovered {
+    color: #fff;
+}
+
+
+/*
+.button:hover {
+    color: #aaa;
+}
+*/
+
+#locationList {
+    width: 120px;
+    height: 400px;
+}
+
+#overlayList {
+    width: 100px;
+    //    height: 1000px;
+    height: 80px;
+}
+
+#serviceList {
+    width: 100px;
+    //    height: 1000px;
+    height: 270px;
+}
+
+#locationList,
+#overlayList,
+#serviceList {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3) inset;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid #888;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.05);
+    color: #111;
+    padding: 10px;
+    margin-right: 5px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    font-weight: bold;
+}
+
+#locationList>.button,
+#overlayList>.button,
+#serviceList>.button {
+    width: 200px;
+}
+
+
+/**
+ * Table スタイルを整えるためのセル
+ */
+
+.dummyCell {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    line-height: 0;
+    height: 0;
+}
+
+
+/**
+ * Chip Set View CSS
+ */
+
+.timestamp {
+    font-weight: bold;
+    font-size: 9px;
+    color: #000;
+}
+
+.box {
+    float: left;
+}
+
+#trafficStream,
+#commandStream,
+#overlayStream {
+    overflow: hidden;
+}
+
+#trafficStream>div,
+#commandStream>div,
+#overlayStream>div {
+    overflow: hidden;
+}
+
+#trafficStream *,
+#commandStream *,
+#overlayStream * {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.trafficChip,
+.commandChip,
+.overlayChip {
+    overflow: hidden;
+    display: block;
+}
+
+
+/* trafficStream */
+
+#trafficStream,
+.trafficChip {
+    width: 250px;
+}
+
+.trafficChip .traffic {
+    width: 30px;
+    font-weight: bold;
+    color: #000;
+}
+
+.trafficChip .srcLabel,
+.trafficChip .dstLabel {
+    width: 100px;
+}
+
+
+/* command Stream */
+
+#commandStream,
+.commandChip {
+    width: 400px;
+}
+
+.commandChip>.CREATE_PATH {
+    color: #400;
+}
+
+.commandChip>.JOIN_SCN {
+    color: #040;
+}
+
+.commandChip>.SEARCH {
+    color: #004;
+}
+
+.commandChip>.UPDATE_PATH {
+    color: #440;
+}
+
+.commandChip>.DELETE_PATH {
+    color: #044;
+}
+
+.commandChip>.CREATE_PATH,
+.commandChip>.JOIN_SCN,
+.commandChip>.SEARCH,
+.commandChip>.UPDATE_PATH,
+.commandChip>.DELETE_PATH {
+    width: 90px;
+    font-weight: bold;
+}
+
+.commandChip .text {
+    overflow: hidden;
+    width: 250px;
+}
+
+
+/* overlay stream */
+
+#overlayStream,
+.overlayChip {
+    width: 450px;
+}
+
+.overlayChip .type {
+    width: 150px;
+}
+
+.overlayChip .text {
+    width: 600px;
+}
+
+
+/**
+ * ダイアログ用CSS
+ */
+
+.dialog {
+    position: absolute;
+    border: 4px solid rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border-radius: 7px;
+    color: #888;
+    z-index: 100;
+}
+
+.dialog td {
+    color: #888;
+}
+
+.dialog * {
+    padding: 3px;
+}
+
+.dialog .button {}
+
+.dialog .button:hover {
+    coor: #ddd;
+}
+
+.dialog .button.select {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: red;
+    coor: #fff;
+}
+
+
+/**
+ * スピードコントローラ
+ */
+
+.menuBtnTable td {
+    padding-bottom: 5px;
+}
+
+.menuBtn {
+    width: 40px;
+    padding: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+}
+
+.menuBtn.select {
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.1);
+    color: #aaa;
+}
+
+.menuBtn:hover {
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    color: #fff;
+}
+
+
+/*
+#defaultButton,#slowButton,#stopButton {
+    background: transparent;
+    border: 1px solid rgba(0,0,0,0.3);
+    color: #888;
+    border-radius: 2px 0 0 2px;
+    padding: 2px 2px 2px 7px;
+    margin: 2px;
+    font-weight: bold;
+}
+#count {
+    margin: 4px 0 4px 4px;
+}
+*/
+
+#link-status-msg {
+    color: #999;
+    font-size: 16px;
+}

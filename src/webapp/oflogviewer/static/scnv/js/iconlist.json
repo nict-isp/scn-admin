@@ -1,0 +1,8 @@
+{
+	"192.168.1.2": {"type": "service", "image": "img/eventwarehouse.png"},
+	"192.168.5.2": {"type": "service", "image": "img/eventwarehouse.png"},
+	"192.168.16.2": {"type": "service", "image": "img/eventwarehouse.png"},
+	"192.168.10.2": {"type": "network", "image": "img/livee.png"},
+	"192.168.20.2": {"type": "network", "image": "img/internet.png"},
+	"192.168.18.2": {"type": "network", "image": "img/piax.png"}
+}

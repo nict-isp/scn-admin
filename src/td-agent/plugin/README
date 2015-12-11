@@ -1,0 +1,43 @@
+
+* After you update the plug-in, please restart the td-agent with the following command.
+td-agent -c /opt/local/projects/openflowlogger/conf/td-agent.conf -p /opt/local/projects/openflowlogger/td-agent/plugin -o /opt/local/projects/openflowlogger/var/log/td-agent.log
+
+
+* conf file
+/home/isp/demo/visualizer/conf/td-agent.conf
+
+
+* log file
+/home/isp/demo/visualizer/var/log/td-agent.log
+
+
+* output value
+
+{
+    "overlay_id" => "1_1",
+    "events" => {
+        event_name1 => true,
+        event_name2 => false,
+            :
+    }
+    "blocks" => [
+        {
+            "conditions" => "(event_name1.on && event_name2.off)",
+            "is_valid" => true,
+            "links" => [
+                {
+                    "link_id" => 1,
+                    "scratch" => "s_temp",
+                    "channel" => "c_store",
+                    "expected" => 1,
+                    "actual" => 1,
+                }, {
+                    :
+                }
+            ]
+        }, {
+            :
+        }
+    ]
+}
+

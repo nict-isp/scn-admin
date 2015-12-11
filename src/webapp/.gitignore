@@ -1,0 +1,12 @@
+# ライブラリ群
+lib/juggernaut
+oflogviewer/static/js/*
+oflogviewer/static/scnv/application.js
+oflogviewer/static/scnv/js/vendor/*
+
+# ライブラリ群の中の除外ファイル
+!oflogviewer/static/js/app.js
+
+# ログフォルダ
+logs/*
+
