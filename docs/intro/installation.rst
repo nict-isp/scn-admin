@@ -31,7 +31,7 @@ SCN Adminの動作に必要なツール・ライブラリのインストール
 
 SCN Adminを動作させるために、以下のツール・ライブラリをインストールする必要があります。
 
-バックエンド
+サーバサイド
 -------------
 
 #. `Python`_ バージョン2.7。
@@ -65,8 +65,8 @@ SCN Adminを動作させるために、以下のツール・ライブラリを�
 #. `supervisor`_ プロセス制御ツール。
 
 
-フロントエンド
----------------
+クライアントサイド
+-------------------
 
 #. `juggernaut`_ サーバからクライアントへのデータpushを可能にするするライブラリ。
 
@@ -82,6 +82,21 @@ SCN Adminを動作させるために、以下のツール・ライブラリを�
 
 #. `three.js`_ WebGLグラフィックスを作成するJavaScriptライブラリ。
 
+
+推奨動作環境
+=============
+
++---------------------+----------------+----------------------+
+| 区分                | 項目           | 要件                 |
++=====================+================+======================+
+| ハードウェア        | CPU            | 2GHz以上             |
+|                     +----------------+----------------------+
+|                     | メモリ         | 4GB以上              |
+|                     +----------------+----------------------+
+|                     | ストレージ     | 16GB以上             |
++---------------------+----------------+----------------------+
+| ソフトウェア        | OS             | CentOS 6.6以上       |
++---------------------+----------------+----------------------+
 
 
 SCN Adminのインストール
@@ -112,7 +127,7 @@ SCN Adminのインストール
 CentOS 6.6 以上
 ----------------
 
-バックエンド
+サーバサイド
 ^^^^^^^^^^^^^
 
 *  事前準備
@@ -211,7 +226,7 @@ CentOS 6.6 以上
 
         $ sudo useradd growthforecast
         $ sudo passwd growthforecast
-        $ su - growthforecast
+        $ su growthforecast
 
  * Perlbrewインストール。
     ::
@@ -275,8 +290,8 @@ CentOS 6.6 以上
         $ sudo pip install supervisor --upgrade
         $ sudo pip install meld3==1.0.0
 
-フロントエンド
-^^^^^^^^^^^^^^^
+クライアントサイド
+^^^^^^^^^^^^^^^^^^^
 
 *   `juggernaut`_ (フロントエンド)のインストール。
     ::
@@ -327,5 +342,35 @@ CentOS 6.6 以上
         $ mkdir /opt/local/projects/openflowlogger/static/scnv/js/vendor/three
         $ cp three.js/examples/js/controls/OrbitControls.js /opt/local/projects/openflowlogger/static/scnv/js/vendor/three/.
 
+
+=========
+環境設定
+=========
+
+OSの設定
+=========
+
+ファイヤウォールの設定
+-----------------------
+SCN Adminが使用するポートを開放します。
+
+::
+
+    $ sudo vi /etc/sysconfig/iptables
+
+
+以下を追加します。
+
+::
+
+    -A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
+    -A INPUT -m state --state NEW -m tcp -p tcp --dport 5125 -j ACCEPT
+    -A INPUT -m state --state NEW -m tcp -p tcp --dport 6379 -j ACCEPT
+    -A INPUT -m state --state NEW -m tcp -p tcp --dport 8000 -j ACCEPT
+    -A INPUT -m state --state NEW -m tcp -p tcp --dport 8080 -j ACCEPT
+    -A INPUT -m state --state NEW -m tcp -p tcp --dport 22001 -j ACCEPT
+    -A INPUT -m state --state NEW -m tcp -p tcp --dport 22002 -j ACCEPT
+    -A INPUT -m state --state NEW -m tcp -p tcp --dport 24224 -j ACCEPT
+    -A INPUT -m state --state NEW -m tcp -p tcp --dport 55555 -j ACCEPT
 
 

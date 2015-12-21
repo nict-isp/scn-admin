@@ -13,7 +13,6 @@ Contents:
 
    intro/overview
    intro/installation
-   intro/setting
    intro/startup
 
    topics/usage
