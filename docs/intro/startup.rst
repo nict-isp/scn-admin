@@ -1,53 +1,84 @@
-================
-SCN Adminの起動
-================
+Starting SCN Admin
+==================
 
-Growthforecastの起動
----------------------
+Starting Redis
+--------------
 
-下記のコマンドを実行します。
+Run the following command
 
 ::
 
-    $ su growthforecast
+    $ redis-server /opt/local/projects/openflowlogger/conf/redis.conf
+
+
+Starting MySQL Server
+---------------------
+
+Run the following command
+
+::
+
+    $ /etc/init.d/mysqld start
+
+
+Starting fluentd
+----------------
+
+Run the following command
+
+::
+
+    $ td-agent -c /opt/local/projects/openflowlogger/conf/td-agent.conf -o /opt/local/projects/openflowlogger/var/log/td-agent.log -p /opt/local/projects/openflowlogger/td-agent/plugin
+
+
+
+Starting Growthforecast
+-----------------------
+
+Run the following command
+
+::
+
     $ /home/growthforecast/GrowthForecast/growthforecast.pl --port=5125 --data-dir=/home/growthforecast/data > /home/growthforecast/log/growthforecast.log 2> /home/growthforecast/log/growthforecast.err &
-    $ exit
 
 
-スクリプトによる各ツールの起動
--------------------------------
 
-下記のコマンドを実行します。
+Starting nginx
+--------------
 
-::
-
-    $ cd /opt/local/projects/openflowlogger/scripts/
-    $ start.sh
-
-
-================
-SCN Adminの停止
-================
-
-スクリプトによる各ツールの停止
--------------------------------
-
-下記のコマンドを実行します。
+Run the following command
 
 ::
 
-    $ cd /opt/local/projects/openflowlogger/scripts/
-    $ stop.sh
+    $ sudo /etc/init.d/nginx start
 
 
-Growthforecastの停止
----------------------
+Starting gunicorn
+-----------------
 
-下記のコマンドを実行します。
+Run the following command
 
 ::
 
-    $ su growthforecast
-    $ pkill -KILL -f /home/growthforecast/GrowthForecast/growthforecast.pl
-    $ exit
+    $ gunicorn -c /opt/local/projects/openflowlogger/conf/gunicorn.production.conf.py manage:app
+
+
+Starting juggernaut
+-------------------
+
+Run the following command
+
+::
+
+    $ node /opt/local/projects/openflowlogger/webapp/lib/juggernaut/server.js
+
+
+Starting supervisor
+-------------------
+
+Run the following command
+
+::
+
+    $ /usr/local/sbin/visualizer restart
 

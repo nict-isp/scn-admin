@@ -1,9 +1,9 @@
 =============
-インストール
+Installation
 =============
 
-SCN Adminの動作に必要なツール・ライブラリのインストール
-========================================================
+Installation of the tool library required for SCN Admin operation
+=================================================================
 
 .. _Python: http://www.python.org
 .. _pip: https://pip.pypa.io/
@@ -29,80 +29,82 @@ SCN Adminの動作に必要なツール・ライブラリのインストール
 .. _three.js: http://threejs.org/
 
 
-SCN Adminを動作させるために、以下のツール・ライブラリをインストールする必要があります。
+To operate SCN Admin, the following tool library must be installed.
 
-サーバサイド
+Server side
 -------------
 
-#. `Python`_ バージョン2.7。
+#. `Python`_ ver. 2.7.
 
-#. `pip`_ 、 `setuptools`_ Pythonのパッケージ管理ツール。 `setuptools`_ は、 `pip`_ のインストール時に自動でインストールされる。
+#. `pip`_ 、 `setuptools`_ Package management tool of Python. setuptools will be installed automatically when pip is installed.
 
-#. `Ruby`_ バージョン1.9.3。
+#. `Ruby`_ ver. 1.9.3.
 
-#. `RubyGems`_ Rubyのパッケージ管理ツール。
+#. `RubyGems`_ Pakage management tool of Ruby.
 
-#. `Flask`_ Python用の軽量なwebアプリケーションフレームワーク。
+#. `Flask`_ A light web application framework for Python.
 
-#. `nginx`_ webサーバ。
+#. `nginx`_ web server.
 
-#. `gunicorn`_ Python用のHTTPサーバ 。
+#. `gunicorn`_ HTTP server for Python.
 
-#. `meinheld`_ 非同期Python WSGI Webサーバー。
+#. `meinheld`_ Asynchronous Python WSGI Web server.
 
-#. `MySQL`_ RDBMS。
+#. `MySQL`_ RDBMS.
 
-#. `Redis`_  NoSQL。
+#. `Redis`_  NoSQL.
 
-#. `node.js`_ サーバサイドのJavaScriptインタープリター。
+#. `node.js`_ JapaScript interpreter at server side.
 
-#. `juggernaut`_ サーバからクライアントへのデータpushを可能にするするライブラリ。
+#. `juggernaut`_ Library that enables data push from server to clients.
 
-#. `fluentd`_ ログ収集ライブラリ。
+#. `fluentd`_ Log collection library.
 
-#. `GrowthForecast`_ グラフ化ツール。
+#. `GrowthForecast`_ Graphing tool.
 
-#. `supervisor`_ プロセス制御ツール。
-
-
-クライアントサイド
--------------------
-
-#. `juggernaut`_ サーバからクライアントへのデータpushを可能にするするライブラリ。
-
-#. `Backbone.js`_ JavaScriptのMVCフレームワーク。
-
-#. `jQuery.js`_ JavaScriptコードをより容易に記述できるようにするために設計されたJavaScriptライブラリ。
-
-#. `jQuery UI`_ jQueryのJavaScript上に構築されたユーザインタフェース。
-
-#. `Underscore.js`_ JavaScriptの関数や配列、オブジェクトを容易に扱うためのユーティリティライブラリ。
-
-#. `Raphael.js`_ SVGとVMLを使用してベクターグラフィックスを作成するJavaScriptライブラリ。
-
-#. `three.js`_ WebGLグラフィックスを作成するJavaScriptライブラリ。
+#. `supervisor`_ Process control tool.
 
 
-推奨動作環境
-=============
+Client side
+---------------
+
+#. `juggernaut`_ Library that enables data push from the server to a client.
+
+#. `Backbone.js`_ MVC framework of JavaScript.
+
+#. `jQuery.js`_  JavaScript Library that is designed to simplify writing of JavaScript code.
+
+#. `jQuery UI`_ User Interface that is established on JavaScript of jQuery.
+
+#. `Underscore.js`_ Utility library that makes the handling function, array and object of JavaScript easier.
+
+#. `Raphael.js`_ JavaScript library that produces vector graphics using SVG and VML.
+
+#. `three.js`_ JavaScript library that produces Web GL graphics.
+
+
+Recommended system requirements
+===============================
 
 +---------------------+----------------+----------------------+
-| 区分                | 項目           | 要件                 |
+| HW/SW               | Item           | Requirement          |
 +=====================+================+======================+
-| ハードウェア        | CPU            | 2GHz以上             |
+| Hardware            | CPU            | 2 GHz or faster      |
 |                     +----------------+----------------------+
-|                     | メモリ         | 4GB以上              |
+|                     | Memory         | 4 GB or more         |
 |                     +----------------+----------------------+
-|                     | ストレージ     | 16GB以上             |
+|                     | Storage        | 16 GB or more        |
 +---------------------+----------------+----------------------+
-| ソフトウェア        | OS             | CentOS 6.6以上       |
+| Software            | OS             | CentOS 6.6 or above  |
 +---------------------+----------------+----------------------+
 
 
-SCN Adminのインストール
+
+
+SCN Admin installation
 ========================
 
-*  GitHubリポジトリからソースコードをコピーし、シンボリックリンクを貼ります。
+*  Copy source code from the GitHub repository and create symbolic link
 
 ::
 
@@ -111,7 +113,7 @@ SCN Adminのインストール
     $ sudo ln -s /home/isp/scn-admin/src openflowlogger
 
 
-*  以下のconfファイル中に記述されているIPアドレスを、インストール先の環境に合わせて書き換えます。
+*  Overwrite the IP address described in the following conf file to match the environment in which it is installed.
 
 ::
 
@@ -121,18 +123,18 @@ SCN Adminのインストール
     $ /opt/local/projects/openflowlogger/conf/supervisord.conf
 
 
-プラットフォーム別のインストール手順
+Installation procedure per platform
 ======================================
 
-CentOS 6.6 以上
-----------------
+CentOS 6.6 or above
+-------------------
 
-サーバサイド
+Server side
 ^^^^^^^^^^^^^
 
-*  事前準備
+*  Prior preparation
 
- * EPELリポジトリの追加
+ * Add EPEL repository
     ::
 
         $ sudo wget http://ftp-srv2.kddilabs.jp/Linux/distributions/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm
@@ -140,14 +142,14 @@ CentOS 6.6 以上
         $ sudo sed -i 's/enabled=1/enabled=0/g' /etc/yum.repos.d/epel.repo
 
 
- * `nginx`_ のインストール向け
+ * For installing  `nginx`_ .
     ::
 
         $ sudo rpm -ivh http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm
         $ sudo sed -i 's/enabled=1/enabled=0/g' /etc/yum.repos.d/nginx.repo
 
 
-*   `Ruby`_ 、 `RubyGems`_ のインストール。
+*   For installing `Ruby`_ , `RubyGems`_ .
     ::
 
         $ cd /usr/local/src
@@ -161,7 +163,7 @@ CentOS 6.6 以上
 
 
 
-*   `Flask`_ のインストール。
+*   For installing `Flask`_ .
     ::
 
         $ sudo pip install flask
@@ -171,64 +173,64 @@ CentOS 6.6 以上
         $ sudo pip install sqlsoup
 
 
-*   `nginx`_ のインストール。
+*   For installing `nginx`_ .
     ::
 
         $ sudo yum --enablerepo=nginx install nginx
 
 
-*   `gunicorn`_ のインストール。
+*   For installing `gunicorn`_ .
     ::
 
         $ sudo pip install gunicorn
 
 
-*   `meinheld`_ のインストール。
+*   For installing `meinheld`_ .
     ::
 
         $ sudo pip install meinheld
 
 
-*   `Redis`_ のインストール。
+*   For installing `Redis`_ .
     ::
 
         $ sudo yum install redis --enablerepo=epel
 
 
-*   `node.js`_ のインストール。
+*   For installing `node.js`_ .
     ::
 
         $ sudo yum install nodejs --enablerepo=epel
 
 
-*   `juggernaut`_ のインストール。
+*   For installing `juggernaut`_ .
     ::
 
         $ sudo pip install juggernaut
 
 
-*   `fluentd`_ のインストール。
+*   For installing `fluentd`_ .
     ::
 
         $ curl -L https://td-toolbelt.herokuapp.com/sh/install-redhat-td-agent2.sh | sh
 
 
-*   `GrowthForecast`_ のインストール。
+*   For installing `GrowthForecast`_ .
 
- * 必須パッケージのインストール。
+ * Install required package.
     ::
 
         $ sudo yum groupinstall "Development Tools"
         $ sudo yum install pkgconfig glib2-devel gettext libxml2-devel pango-devel cairo-devel
 
- * ユーザ切り替え。
+ * Switch user.
     ::
 
         $ sudo useradd growthforecast
         $ sudo passwd growthforecast
-        $ su growthforecast
+        $ su - growthforecast
 
- * Perlbrewインストール。
+ * Install Perlbrew.
     ::
 
         $ curl -kL http://install.perlbrew.pl | bash
@@ -241,12 +243,12 @@ CentOS 6.6 以上
         $ perlbrew switch perl-5.20.0
         $ perl -v
 
- * cpanmインストール。
+ * Install cpanm.
     ::
 
         $ perlbrew install-cpanm
 
- * Growthforecastインストール準備。
+ * Prepare Growthforecast installation.
     ::
 
         $ sudo yum install glib2
@@ -258,14 +260,14 @@ CentOS 6.6 以上
         cpanm -v Alien::RRDtool
         cpanm -f -v Starlet
 
- * Growthforecastインストール。
+ * Install Growthforecast
     ::
 
         $ git clone git://github.com/kazeburo/GrowthForecast.git
         $ cd GrowthForecast/
         $ cpanm --installdeps .
 
- * その他設定。
+ * Others settings.
     ::
 
         $ export PERL_CPANM_OPT="--local-lib=~/perl5"
@@ -274,7 +276,7 @@ CentOS 6.6 以上
         $ mkdir /home/growthforecast/data
         $ mkdir /home/growthforecast/log
 
- * `fluentd`_ と `GrowthForecast`_ の連携に必要なプラグインのインストール。
+ * Install plug-in that is required for cooperation between `fluentd`_ and `GrowthForecast`_ .
     ::
 
         $ sudo /opt/td-agent/embedded/bin/fluent-gem install fluent-plugin-growthforecast
@@ -284,57 +286,57 @@ CentOS 6.6 以上
         $ sudo gem install json
         $ sudo /opt/td-agent/embedded/bin/fluent-gem install growthforecast
 
-*   `supervisor`_ のインストール。
+*   Install supervisor `supervisor`_ .
     ::
 
         $ sudo pip install supervisor --upgrade
         $ sudo pip install meld3==1.0.0
 
-クライアントサイド
-^^^^^^^^^^^^^^^^^^^
+Client side
+^^^^^^^^^^^^^^^
 
-*   `juggernaut`_ (フロントエンド)のインストール。
+*   Install `juggernaut`_ (front-end)).
     ::
 
         $ git clone https://github.com/maccman/juggernaut.git
         $ cp -r juggernaut/lib/juggernaut /opt/local/projects/openflowlogger/webapp/lib/.
         $ cp juggernaut/public/application.js /opt/local/projects/openflowlogger/webapp/oflogviewer/static/scnv/.
 
-*   `Backbone.js`_ のインストール。
+*   Install `Backbone.js`_ .
     ::
 
         $ wget http://backbonejs.org/backbone-min.js
         $ cp backbone-min.js /opt/local/projects/openflowlogger/webapp/oflogviewer/static/js/.
         $ cp backbone-min.js /opt/local/projects/openflowlogger/static/scnv/js/vendor/.
 
-*   `jQuery.js`_ のインストール。
+*   Install `jQuery.js`_ .
     ::
 
         $ wget http://code.jquery.com/jquery-1.7.2.min.js
         $ cp jquery-1.7.2.min.js /opt/local/projects/openflowlogger/webapp/oflogviewer/static/js/.
         $ cp jquery-1.7.2.min.js /opt/local/projects/openflowlogger/static/scnv/js/vendor/jquery.js
 
-*   `jQuery UI`_ のインストール。
+*   Install `jQuery UI`_ .
     ::
 
         $ wget http://jqueryui.com/resources/download/jquery-ui-1.11.4.zip
         $ unzip jquery-ui-1.11.4.zip
         $ cp jquery-ui-1.11.4/jquery-ui.js /opt/local/projects/openflowlogger/static/scnv/js/vendor/.
 
-*   `Underscore.js`_ のインストール。
+*   Install `Underscore.js`_ .
     ::
 
         $ wget http://underscorejs.org/underscore-min.js
         $ cp underscore-min.js /opt/local/projects/openflowlogger/webapp/oflogviewer/static/js/.
         $ cp underscore-min.js /opt/local/projects/openflowlogger/static/scnv/js/vendor/.
 
-*   `Raphael.js`_ のインストール。
+*   Install `Raphael.js`_ .
     ::
 
         $ git clone https://github.com/DmitryBaranovskiy/raphael
         $ cp raphael/raphael-min.js /opt/local/projects/openflowlogger/static/scnv/js/vendor/.
 
-*   `three.js`_ のインストール。
+*   Install `three.js`_ .
     ::
 
         $ git clone https://github.com/mrdoob/three.js
@@ -343,23 +345,23 @@ CentOS 6.6 以上
         $ cp three.js/examples/js/controls/OrbitControls.js /opt/local/projects/openflowlogger/static/scnv/js/vendor/three/.
 
 
-=========
-環境設定
-=========
+======================
+Configuration settings
+======================
 
-OSの設定
-=========
+OS settings
+===========
 
-ファイヤウォールの設定
+Firewall settings
 -----------------------
-SCN Adminが使用するポートを開放します。
+Open the port that is used by SCN Admin.
 
 ::
 
     $ sudo vi /etc/sysconfig/iptables
 
 
-以下を追加します。
+Add the following.
 
 ::
 
@@ -368,9 +370,7 @@ SCN Adminが使用するポートを開放します。
     -A INPUT -m state --state NEW -m tcp -p tcp --dport 6379 -j ACCEPT
     -A INPUT -m state --state NEW -m tcp -p tcp --dport 8000 -j ACCEPT
     -A INPUT -m state --state NEW -m tcp -p tcp --dport 8080 -j ACCEPT
-    -A INPUT -m state --state NEW -m tcp -p tcp --dport 22001 -j ACCEPT
-    -A INPUT -m state --state NEW -m tcp -p tcp --dport 22002 -j ACCEPT
+    -A INPUT -m state --state NEW -m tcp -p tcp --dport 22001:22100 -j ACCEPT
     -A INPUT -m state --state NEW -m tcp -p tcp --dport 24224 -j ACCEPT
     -A INPUT -m state --state NEW -m tcp -p tcp --dport 55555 -j ACCEPT
-
 

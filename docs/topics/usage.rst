@@ -1,137 +1,130 @@
-=======
-使い方
-=======
+==========
+How to use
+==========
 
-SCN-Adminの起動
-================
+Starting SCN-Admin
+==================
 
-* ブラウザ(Google Chrome)で、http://172.18.102.1/static/scnv/index.html にアクセスします。
+* Access to http://172.18.102.1/static/scnv/index.html using a browser (Google Chrome)
 
 
-画面の説明
-===========
+Explanation of screen
+=====================
 
-サービスロケーション/ネットワーク・トポロジー表示画面
+Service location/Network topology display screen
 ------------------------------------------------------
 
 .. image:: img/fig-usage-1.png
       :width: 500px
       :align: center
 
-* **サービスロケーション表示画面** では、以下の例のように、
-  サービス名とそのサービスが稼働しているノードのIPアドレスを表示します。
+* The **service location display screen** shows the service name and the IP address of the node on which the service is being run, as shown below.
 
 =========== ========================
-IPアドレス  サービス名
+IP address  Service name
 =========== ========================
 10.0.10.1   SoratenaUvaSensor
 10.2.1.1    DataStoreService
 10.4.1.1    HeavyRainEventDetection
 =========== ========================
 
-* **ネットワークトポロジー表示画面** では、SCNが稼働しているサービスノードおよび
-  サービスノードが接続しているOpenFlowスイッチを表示します。
-  また、データ送信元ノードとデータ送信先ノードをつなぐサービスリンクも表示されます。
+* The **network topology display screen** shows the service node where SCN is running and the OpenFlow switch to which the service node is connected.
+  Furthermore, it shows the service link that connects the node of the data transmission source and the node of the data transmission destination.
 
-
-サービス一覧/サービス連携一覧/サービス連携詳細表示画面
--------------------------------------------------------
+Service list/Service cooperation list/Service cooperation detail display screen
+-------------------------------------------------------------------------------
 .. image:: img/fig-usage-2.png
       :width: 300px
       :align: center
 
-* **サービス連携一覧表示画面** では、SCNが管理しているサービス連携名を一覧表示します。
-  サービス連携名にマウスカーソルを合わせると、サービス一覧画面とサービス連携詳細画面で、
-  関連するサービスがハイライトします。
+* The **service cooperation list display screen** presents a list of the service cooperation names that are controlled by SCN. 
+  When the cursor is moved to the service cooperation name, related services will be highlighted at the service list screen and the service cooperation detail screen.
 
-* **サービス一覧表示画面** では、SCNに参加しているサービス名を一覧表示します。
+* The **service list display screen** displays a list of the service names that participate in SCN.
 
-* **サービス連携詳細表示画面** では、SCNが管理しているサービス連携を、図で表示します。
-  図をクリックすると、以下のように送信元サービス名、送信先サービス名が矢印とともに表示されます。
+* The **service cooperation detail display screen** shows service cooperation by a diagram that is controlled by SCN.
+  When clicking the diagram, the transmission source service name and transmission destination service name will be shown with an arrow.
 
+
+Service path traffic/Network control command/DSN rule execution log display screen
+----------------------------------------------------------------------------------
 .. image:: img/fig-usage-3.png
-      :width: 200px
-      :align: center
-
-サービスパストラフィック/ネットワーク制御コマンド/DSNルール実行ログ表示画面
-----------------------------------------------------------------------------
-.. image:: img/fig-usage-4.png
       :width: 600px
       :align: center
 
-* **サービスパストラフィック表示画面** では、以下の例のように、
-  送信元サービスと送信先サービスのペアごとに、送受信ネットワークトラフィックを表示します。
+* At the **service path traffic display screen** , transmission and receiving of network traffic will be displayed per the pair of transmission source service and transmission destination service as shown below.
 
-=============================== ========================  =========================
-ネットワークトラフィック(Mbps)  送信元サービス名          送信先サービス名
-=============================== ========================  =========================
-1.386                           DataStoreService          YahooTrafficInformation
-28.96                           YahooTrafficInformation   DataStoreService
-0.963                           DataStoreService          TwitterJapanSensor
-16.64                           TwitterJapanSensor        DataStoreService
-=============================== ========================  =========================
+=============================== =================================== ========================================
+Network traffic (Mbps)          Service name of transmission source Service name of transmission destination
+=============================== =================================== ========================================
+1.386                           DataStoreService                    YahooTrafficInformation
+28.96                           YahooTrafficInformation             DataStoreService
+0.963                           DataStoreService                    TwitterJapanSensor
+16.64                           TwitterJapanSensor                  DataStoreService
+=============================== =================================== ========================================
 
-* **ネットワーク制御コマンド表示画面** では、ネットワーク制御に関する以下のコマンドのログを表示します。
+* At the **network control command display screen** , the following command log about the network control will be displayed.
 
-  * JOIN_SCN(SCNの参加)
-  * CREATE_PATH(パスの生成)
-  * DELETE_PATH(パスの削除)
-
-
-* **DSNルール実行ログ表示画面** では、DSNの実行に関する以下のログを表示します。
-
-  * DISCOVERY(サービスの検索)
-  * CREATE_SERVICE_LINK(チャネルの生成)
-  * DELETE_SERVICE_LINK(チャネルの削除)
-  * PROPAGATE(サービス連携情報の伝播)
-  * DATA_RECEIVE(サービスから送信されたデータの受信)
+  * JOIN_SCN (Join SCN)
+  * CREATE_PATH (Create a path)
+  * DELETE_PATH (Delete a path)
 
 
+* At the **DSN rule execution log display screen** , the following log about the DSN execution will be displayed.
 
-SCN-Adminの管理者用ページの起動
-================================
+  * DISCOVERY (Discover service)
+  * CREATE_SERVICE_LINK (Create a channel)
+  * DELETE_SERVICE_LINK (Delete a channel)
+  * PROPAGATE (Propagate service cooperation information)
+  * DATA_RECEIVE (Receive data sent from service)
 
-* ブラウザ(Google Chrome)で、http://172.18.102.1/static/scnv/admin.html にアクセスします。
 
-  * アクセスすると以下の認証画面が表示されますので、ユーザ名とパスワードを入力してください。
 
-.. image:: img/fig-usage-5.png
+Starting page for administrator of SCN-Admin
+============================================
+
+* Access to http://172.18.102.1/static/scnv/admin.html using a browser (Google Chrome)
+
+  * When accessed, the following user authentication screen is displayed. Then, enter user name and password.
+
+.. image:: img/fig-usage-4.png
       :width: 300px
       :align: center
 
-画面の説明
-===========
-* SCN-Adminの表示に加えて、管理者用ページには新たに2つの画面が表示されます。
 
-リソース使用状況一覧画面
+Explanation of screen
+=====================
+* In addition to displaying SCN-Admin screen, two new screens will be displayed in the administrator page.
+
+Resource usage list screen
 ----------------------------------------------------------------------------
 .. image:: img/fig-usage-6.png
       :width: 600px
       :align: center
 
-* **リソース使用状況一覧画面** では、SCN全体のリソース使用状況として、以下のグラフを表示します。
+* At the **resource usage list screen** , the following graph will be displayed showing all resource usage.
 
-============================ =============== ============================================================
-グラフの種類                 グラフの種類    内容
-============================ =============== ============================================================
-ネットワーク（スループット） 折れ線          オーバーレイごとのスループットを表示します
-CPU使用率                    積み上げ折れ線  サービスノードのCPU使用率を使用率に応じた色で表示します
-メモリ使用率                 積み上げ折れ線  サービスノードのメモリ使用率を使用率に応じた色で表示します
-============================ =============== ============================================================
+============================ ==================================================================================================
+Types of graph               Description
+============================ ==================================================================================================
+Network (Throughput)         Display throughput per overlay/
+CPU utilization rate         Display CPU utilization rate of the service node in a different color per the utilization rate.
+Memory utilization rate      Display memory utilization rate of the service node in a different color per the utilization rate.
+============================ ==================================================================================================
 
-オーバーレイ一覧画面
+Overlay list screen
 ----------------------------------------------------------------------------
 .. image:: img/fig-usage-7.png
       :width: 600px
       :align: center
 
-* **オーバーレイ一覧画面** では、オーバーレイごとにチャネルのスループットを折れ線グラフで表示します。
+* At **the overlay list screen** , the channel throughput per overlay will be displayed as a line graph.
 
-======================= ==========================================
-項目の種類              内容
-======================= ==========================================
-(channel id)_send       送信元サービスの送出したデータサイズです
-(channel id)_filtered   SCNによる中間処理後のデータサイズです
-(channel id)_received   宛先サービスの受信したデータサイズです
-======================= ==========================================
+======================= ===============================================================
+Type of item            Description
+======================= ===============================================================
+(channel id)_send       Size of data transmitted from the transmission source service
+(channel id)_filtered   Size of data processed intermediately by SCN
+(channel id)_received   Size of data received by the destination service
+======================= ===============================================================
 

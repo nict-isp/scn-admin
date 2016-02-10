@@ -1,42 +1,41 @@
-==============
-SCN Adminとは
-==============
-* SCN Adminとは、SCN(Service-Controlled Networking)が管理しているトポロジー、サービス、サービス連携およびSCNの動作を可視化するツールです。
+==================
+What is SCN Admin?
+==================
+* SCN Admin is a tool that visualizes operations of topology, service, and service cooperation that are managed by Service-Controlled Networking (SCN) as well as SCN operation.
 
 .. image:: img/fig-overview-1.png
       :width: 500px
       :align: center
 
 
-SCN Adminの特長
-================
+Features of SCN Admin
+=====================
 
-サービスロケーション/ネットワーク・トポロジー表示
+Service location/network topology display
 --------------------------------------------------
 
-* SCNが稼働しているネットワーク・トポロジを表示します。
-* サービスが稼働しているノードのIPアドレスを表示します。
+* Display network topology where SCN is operating.
+* Display the IP address of the node where the service is operating.
 
 
-サービス一覧/サービス連携一覧/サービス連携詳細表示
----------------------------------------------------
+Service list/Service cooperation list/Service cooperation detail list display
+-----------------------------------------------------------------------------
 
-* SCNに参加している情報サービスの一覧を表示します。
-* SCNが管理しているサービス連携を表示します。
-
-
-サービスパストラフィック/ネットワーク制御コマンド/DSNルール実行ログ表示
-------------------------------------------------------------------------
-
-* サービスパスごとのトラフィックを表示します。
-* ネットワーク制御コマンドの履歴を表示します。
-* DSNルールの実行履歴を表示します。
+* Display the list of information services that have joined SCN.
+* Display the service cooperation that SCN controls.
 
 
+Service path traffic/network control command/DSN rule execution log display
+---------------------------------------------------------------------------
 
-SCNの開発について
-==================
-SCNは、国立研究開発法人 情報通信研究機構 情報利活用基盤研究室(http://nict.go.jp/univ-com/isp/index.html)
-によって開発されているオープンソースプロジェクトです。
+* Display traffic per service path.
+* Display a history of network control commands.
+* Display the DSN rule execution history.
+
+
+
+About SCN development
+=====================
+SCN is an open source project that is developed by Information Services Platform Laboratory in National Institute of Information and Communications Technology (http://nict.go.jp/univ-com/isp/index.html).
 
 

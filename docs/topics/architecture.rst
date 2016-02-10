@@ -1,5 +1,4 @@
-===============
-アーキテクチャ
+Architecture
 ===============
 
 .. _Flask: http://flask.pocoo.org/
@@ -18,101 +17,100 @@
 .. _three.js: http://threejs.org/
 
 
-システム構成
-=================
-* SCN Adminは、以下のツールおよびライブラリによって構成されています。
+System configuration
+====================
+* SCN Admin consists of the following tools and libraries.
 
 +---------------------+----------------------------------------------------------------+---------------------+
-| 種別                | ツール/ライブラリ                                              | SCN Adminでの利用   |
+| Server/Client       | Tool/Library                                                   | Called in SCN Admin |
 +=====================+================================================================+=====================+
-| サーバサイド        | webアプリケーションフレームワーク                              | `Flask`_            |
+| Server side         | Web application framework                                      | `Flask`_            |
 |                     +----------------------------------------------------------------+---------------------+
-|                     | webサーバ                                                      | `nginx`_            |
+|                     | Web server                                                     | `nginx`_            |
 |                     +----------------------------------------------------------------+---------------------+
-|                     | HTTPサーバ                                                     | `gunicorn`_         |
+|                     | HTTP server                                                    | `gunicorn`_         |
 |                     +----------------------------------------------------------------+---------------------+
 |                     | RDBMS                                                          | `MySQL`_            |
 |                     +----------------------------------------------------------------+---------------------+
 |                     | NoSQL                                                          | `Redis`_            |
 |                     +----------------------------------------------------------------+---------------------+
-|                     | サーバサイドのJavaScriptインタープリター                       | `node.js`_          |
+|                     | JavaScript Interpreter at server side                          | `node.js`_          |
 |                     +----------------------------------------------------------------+---------------------+
-|                     | リアルタイム接続ツール                                         | `juggernaut`_       |
+|                     | Realtime connection tool                                       | `juggernaut`_       |
 |                     +----------------------------------------------------------------+---------------------+
-|                     | データ収集ツール                                               | `fluentd`_          |
+|                     | Data collection tool                                           | `fluentd`_          |
 |                     +----------------------------------------------------------------+---------------------+
-|                     | グラフ化ツール                                                 | `GrowthForecast`_   |
+|                     | Graphing tool                                                  | `GrowthForecast`_   |
 +---------------------+----------------------------------------------------------------+---------------------+
-| クライアントサイド  | クライアントMVCを実現するフレームワーク                        | `Backbone.js`_      |
+| Client side         | Framework that enables client MVC                              | `Backbone.js`_      |
 |                     +----------------------------------------------------------------+---------------------+
-|                     | 軽量なJavaScriptライブラリ                                     | `jQuery`_           |
+|                     | Light JavaScript library                                       | `jQuery`_           |
 |                     +----------------------------------------------------------------+---------------------+
-|                     | SVGグラフィックス                                              | `Raphael.js`_       |
+|                     | SVG graphics                                                   | `Raphael.js`_       |
 |                     +----------------------------------------------------------------+---------------------+
-|                     | WebGLグラフィックス                                            | `three.js`_         |
+|                     | WebGL graphics                                                 | `three.js`_         |
 +---------------------+----------------------------------------------------------------+---------------------+
 
-* 全体のシステム構成は以下の通りです。
+* The entire system configuration is shown below.。
 
 .. image:: img/fig-architecture-1.png
       :width: 800px
       :align: center
 
 
-サーバサイド
+Server side
 -------------
-* SCN Adminのサーバサイドは、各ノードからのログ出力を、クライアントサイドで可視化できる形にします。
-* カスタマイズはデータ収集ツールプラグインまたはWebアプリケーションに行います。
+* The SCN Admin server side enables log output from each node to be visualized.
+* Customization will be done for the data collection tool plug-in or the Web application.
 
-データ収集ツール
-^^^^^^^^^^^^^^^^^
-* 各ノードからのログ出力はまず、データ収集ツールで受信します。
-* NoSQL用Pluginは、ログ出力をNoSQLサーバーに転送します。
-* グラフ化ツール用Pluginは、ログ出力をグラフ化するためのテンポラリな集計と（集計結果はグラフ化ツールへ)、
-  その集計結果を参照するためのHTMLを作成します。
-* 新しい情報を可視化する際には、まずここにPluginを追加します。
-
-Webアプリケーション
+Data collection tool
 ^^^^^^^^^^^^^^^^^^^^
-* NoSQLサーバーへの入力をsubscribeし、クライアントサイド向けの情報に加工してpublishします。
-* ページ表示時に必要なトポロジーなどのログ出力は、いったんRDBMSに登録し、WebアプリケーションAPIより取得可能にします。
+* Log output from each node is received at the data collection tool first.
+* Plugin for NoSQL transfers log output to the NoSQL server.
+* Plugin for the Graphing tool adds up log output temporarily to produce a graph (the summed results will be sent to the graphing tool), and produces HTML code to show the results.
+* When new information must be visualized, add a plugin here.
 
-ファイル構成
-^^^^^^^^^^^^^
-* SCN Adminのサーバサイドを構成するファイルは以下の通りです。
+Web application
+^^^^^^^^^^^^^^^^^^^^
+* It subscribes input to the NoSQL server, modifies it for the client side, and publishes it.
+* For the log output, such as topology, which is required when displaying a page, register it in RDBMS temporarily and enable its acquisition from the Web application API.
+
+File configuration
+^^^^^^^^^^^^^^^^^^
+* SCN Admin server side consists of the following files.
 
 ::
 
-  /（リポジトリのルート）
+  / （route of repository）
   |
   +- /conf
-  |  +- redis.conf                   - Redisの設定
-  |  +- td-agent.conf                - Fluentdの設定
-  |  +- supervisord.conf             - Webアプリケーションの起動設定
-  |  +- gunicorn.production.conf.py  - Webアプリケーションサーバーの設定
+  |  +- redis.conf                   - Setting of Redis
+  |  +- td-agent.conf                - Setting of Fluentd
+  |  +- supervisord.conf             - Setting for starting Web application
+  |  +- gunicorn.production.conf.py  - Setting of Web application server
   |
   +- /oflogger
-  |  +- topology.py                  - トポロジー情報をMySQLに保存するアプリケーション
-  |  +- manage.py                    - モデルクラスをアプリケーション化するためのクラス
-  |  +- /oflogger/models             - 各種ログ出力情報をJuggernautやMySQL向けに出力するモデルクラス群
-  |  +- /configs                     - アプリケーションのコンフィグ
+  |  +- topology.py                  - Application that stores topology information in MySQL
+  |  +- manage.py                    - Class that makes model class an application
+  |  +- /oflogger/models             - Model class group that outputs all sorts of log output information to Juggernaut and MySQL
+  |  +- /configs                     - Configuration of application
   |
   +- /webapp
-  |  +- manage.py                    - アプリケーション化するためのクラス
+  |  +- manage.py                    - Class that makes it an application
   |  +- /oflogviewer
-  |     +- app.py                    - Webアプリケーションのローダ
-  |     +- /configs                  - Webアプリケーションの設定
-  |     +- /views/frontend           - WebアプリケーションAPIのアクセス設定（/api/topologyなど）
-  |     +- /models                   - WebアプリケーションAPIの処理本体（topology.pyなど）
+  |     +- app.py                    - Loader of Web application
+  |     +- /configs                  - Setting of Web application
+  |     +- /views/frontend           - Access setting of Web application API (such as /api/topology)
+  |     +- /models                   - Processing core of Web application API (such as topology.py)
   |
   +- /td-agent/plugin
-     +- redis_output.rb              - Redis用中継プラグイン
-     +- statistics_output.rb         - Growthforecast用グラフ出力プラグイン
+     +- redis_output.rb              - Relaying plugin for Redis
+     +- statistics_output.rb         - Graphing output plugin for Growthforecast
 
 
-データベース
+Database
 =============
-* SCN Adminが利用する、MySQLのテーブルは以下の通りです。
+* MySQL table that SCN Admin uses is the following.
 
 ::
 
@@ -133,7 +131,7 @@ Webアプリケーション
     | switchport               |
     +--------------------------+
 
-* 各テーブルのカラムの情報は以下の通りです。
+* Column information of each table is the following.
 
 ::
 
@@ -278,67 +276,66 @@ Webアプリケーション
     +------------------------+---------------+------+-----+---------+-------+
 
 
-クライアントサイド
+Client side
 -------------------
-* SCN Adminのクライアントサイドは、サーバサイドが成形した、各ノードからのログ出力を可視化します。
-* カスタマイズは、/scnv以下に行います。
+* SCN Admin client side visualizes log output from each node that is created by the server side.
+* Customization will be done after /scnv.
 
-ファイル構成
-^^^^^^^^^^^^^
-* SCN Adminのクライアントサイドを構成するファイルは以下の通りです。
+File configuration
+^^^^^^^^^^^^^^^^^^
+* SCN Admin client side consists of the following files.
 
 ::
 
-  /（リポジトリのルート）
+  / (Route of repository)
   |
   +- /conf
-  |  +- /nginx                       - Webサーバーの設定
+  |  +- /nginx                       - Settings of Web server
   |
-  +- /webapp/oflogviewer/static      - 以下はWebから直接アクセス可能なファイル
-     +- /js                          - Webアプリケーション用の設定およびライブラリ群
+  +- /webapp/oflogviewer/static      - The following files are those accessed directly from the Web
+     +- /js                          - Settings for Web application and library group
      +- /scnv
-        +- application.js            - Juggernaut用の設定
-        +- index.html                - SCN-Visualizerの利用者用ページ（DOM構成）
-        +- admin.html                - SCN-Visualizerの管理者用ページ
-        +- /css                      - SCN-VisualizerのCSS群
-        |  +- default.css            - 適用するスタイル
+        +- application.js            - Settings for Juggernaut
+        +- index.html                - User page of SCN-Visualizer (DOM configuration)
+        +- admin.html                - Administrator page of SCN-Visualizer
+        +- /css                      - CSS group of SCN-Visualizer
+        |  +- default.css            - Applied style
         |
-        +- /img                      - SCN-Visualizerの画像群
+        +- /img                      - Image group of SCN-Visualizer
         +- /js
-           +- app.js                 - アプリケーションのエントリポイント（利用者・管理者用ページ）
-           +- template.js            - テンプレート
-           +- その他.js              - その他クラス群。ドキュメント参照
-           +- /vendor                - ライブラリ群
+           +- app.js                 - Entry point of application (User/Administrator page)
+           +- template.js            - Template
+           +- (Others).js            - Others class group. Refer to document
+           +- /vendor                - Library group
 
 
-通信データ
-===========
+Communication data
+==================
 
-* サービスノード、およびOpenFlowコントローラノードからwebサーバへ送信するデータはJSON形式です。
-* データに含まれるキー、およびルールを使用し、データごとの表示処理を実施します。
+* Data that are sent to the web server from the service node and the OpenFlow controller node are in JSON format.
+* Using a key and rule that are included in the data, perform display processing. 
 
+Sent data from service node to web server
+-----------------------------------------
 
-サービスノードからwebサーバへの送信データ
-------------------------------------------
-
-ログ表示
-^^^^^^^^^
+Log display
+^^^^^^^^^^^
 ::
 
-    (フォーマット)
+    (Format)
     {
-        "type": メソッドタイプ,
-        "key" : NoSQLキー,
+        "type": Method type,
+        "key" : NoSQL Key,
         "data": {
-            "Code"     : DSN実行コマンド,
-            "Rule"     : ルールID("dummy"固定),
-            "Src"      : データ送信元("dummy"固定),
-            "Time"     : データ送信時刻,
-            "Timestamp": データ送信時刻のミリ秒
+            "Code"     : DSN Run command,
+            "Rule"     : Rule ID (“dummy” fixed),
+            "Src"      : Data transmission source (“dummy” fixed),
+            "Time"     : Time stamp when data sent,
+            "Timestamp": Millisecond of the time stamp when data sent
         }
     }
 
-    (例)
+    (Example)
     {
         "type": "publish",
         "key" : "overlay",
@@ -352,24 +349,24 @@ Webアプリケーション
     }
 
 
-サービス参加通知
-^^^^^^^^^^^^^^^^^
+Notification of joining service
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
-    (フォーマット)
+    (Format)
     {
-        "type": メソッドタイプ,
-        "key" : NoSQLキー,
+        "type": Method type,
+        "key" : NoSQL Key,
         "data": {
-            "Code"     : DSN実行コマンド,
-            "Rule"     : ルールID,
-            "Src"      : サービス名,
-            "Time"     : データ送信時刻,
-            "Timestamp": データ送信時刻のミリ秒
+            "Code"     : DSN Run command,
+            "Rule"     : Rule ID,
+            "Src"      : Service name,
+            "Time"     : Time stamp when data sent,
+            "Timestamp": Millisecond of the time stamp when data sent
         }
     }
 
-    (例)
+    (Example)
     {
         "type": "publish",
         "key" : "overlay",
@@ -383,24 +380,24 @@ Webアプリケーション
     }
 
 
-サービス離脱通知
-^^^^^^^^^^^^^^^^^
+Notification of leaving service
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
-    (フォーマット)
+    (Format)
     {
-        "type": メソッドタイプ,
-        "key" : NoSQLキー,
+        "type": Method type,
+        "key" : NoSQL Key,
         "data": {
-            "Code"     : DSN実行コマンド,
-            "Rule"     : ルールID,
-            "Src"      : 離脱サービス名,
-            "Time"     : データ送信時刻,
-            "Timestamp": データ送信時刻のミリ秒
+            "Code"     : DSN Run command,
+            "Rule"     : Rule ID,
+            "Src"      : Name of leaving service,
+            "Time"     : Time stamp when data sent,
+            "Timestamp": Millisecond of the time stamp when data sent
         }
     }
 
-    (例)
+    (Example)
     {
         "type": "publish",
         "key" : "overlay",
@@ -414,34 +411,34 @@ Webアプリケーション
     }
 
 
-チャネル生成通知(サービス連携)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Notification of channel creation (service cooperation)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
-    (フォーマット)
+    (Format)
     {
-        "type": メソッドタイプ,
-        "key" : NoSQLキー,
+        "type": Method type,
+        "key" : NoSQL Key,
         "data": {
-            "Code"     : DSN実行コマンド,
-            "Rule"     : ルールID,
-            "Src"      : データ送信元サービス名,
-            "Dst"      : データ送信先サービス名,
-            "Uid"      : サービス連携名,
-            "Time"     : データ送信時刻,
-            "Timestamp": データ送信時刻のミリ秒,
+            "Code"     : DSN Run command,
+            "Rule"     : Rule ID,
+            "Src"      : Service name of data transmission source,
+            "Dst"      : Service name of data transmission destination,
+            "Uid"      : Service cooperation name,
+            "Time"     : Time stamp when data sent,
+            "Timestamp": Millisecond of the time stamp when data sent,
             "Value"    : {
-                "add.src" : データ送信元サービス名,
-                "add.dst" : データ送信先サービス名,
-                "add.uid" : サービス連携名,
-                "add.no"  : 双方向パスID,
-                "src.path": 送信元パスID,
-                "dst.path": 送信先パスID
+                "add.src" : Service name of data transmission source,
+                "add.dst" : Service name of data transmission destination,
+                "add.uid" : Service cooperation name,
+                "add.no"  : Bidirectional path ID,
+                "src.path": Transmission source path ID,
+                "dst.path": Transmission destination path ID
             }
         }
     }
 
-    (例)
+    (Example)
     {
         "type": "publish",
         "key" : "overlay",
@@ -465,30 +462,30 @@ Webアプリケーション
     }
 
 
-チャネル作成通知(パス)
-^^^^^^^^^^^^^^^^^^^^^^^
+Notification of channel creation (path)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
-    (フォーマット)
+    (Format)
     {
-        "type": メソッドタイプ,
-        "key" : NoSQLキー,
+        "type": Method type,
+        "key" : NoSQL Key,
         "data": {
-            "Code"     : DSN実行コマンド(null固定),
-            "Rule"     : ルールID,
-            "Src"      : データ送信元サービス名,
-            "Dst"      : データ送信先サービス名,
-            "Uid"      : サービス連携名,
-            "Time"     : データ送信時刻,
-            "Timestamp": データ送信時刻のミリ秒,
+            "Code"     : DSN Run command(null fixed),
+            "Rule"     : Rule ID,
+            "Src"      : Service name of data transmission source,
+            "Dst"      : Service name of data transmission destination,
+            "Uid"      : Service cooperation name,
+            "Time"     : Time stamp when data sent,
+            "Timestamp": Millisecond of the time stamp when data sent,
             "Value"    : {
-                "src.path": 送信元パスID,
-                "dst.path": 送信先パスID
+                "src.path": Transmission source path ID,
+                "dst.path": Transmission destination path ID
             }
         }
     }
 
-    (例)
+    (Example)
     {
         "type": "publish",
         "key" : "overlay",
@@ -508,34 +505,34 @@ Webアプリケーション
     }
 
 
-チャネル削除通知(サービス連携)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Notification of deletion channel (service cooperation)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
-    (フォーマット)
+    (Format)
     {
-        "type": メソッドタイプ,
-        "key" : NoSQLキー,
+        "type": Method type,
+        "key" : NoSQL Key,
         "data": {
-            "Code"     : DSN実行コマンド,
-            "Rule"     : ルールID,
-            "Src"      : データ送信元サービス名,
-            "Dst"      : データ送信先サービス名,
-            "Uid"      : サービス連携名,
-            "Time"     : データ送信時刻,
-            "Timestamp": データ送信時刻のミリ秒,
+            "Code"     : DSN Run command,
+            "Rule"     : Rule ID,
+            "Src"      : Service name of data transmission source,
+            "Dst"      : Service name of data transmission destination,
+            "Uid"      : Service cooperation name,
+            "Time"     : Time stamp when data sent,
+            "Timestamp": Millisecond of the time stamp when data sent,
             "Value"    : {
-                "seq.src" : データ送信元サービス名,
-                "seq.dst" : データ送信先サービス名,
-                "seq.uid" : サービス連携名,
-                "seq.no"  : 双方向パスID,
-                "src.path": 送信元パスID,
-                "dst.path": 送信先パスID
+                "seq.src" : Service name of data transmission source,
+                "seq.dst" : Service name of data transmission destination,
+                "seq.uid" : Service cooperation name,
+                "seq.no"  : Bidirectional path ID,
+                "src.path": Transmission source path ID,
+                "dst.path": Transmission destination path ID
             }
         }
     }
 
-    (例)
+    (Example)
     {
         "type": "publish",
         "key" : "overlay",
@@ -559,30 +556,30 @@ Webアプリケーション
     }
 
 
-チャネル削除通知(パス)
-^^^^^^^^^^^^^^^^^^^^^^^
+Notification of deletion channel (path)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
-    (フォーマット)
+    (Format)
     {
-        "type": メソッドタイプ,
-        "key" : NoSQLキー,
+        "type": Method type,
+        "key" : NoSQL Key,
         "data": {
-            "Code"     : DSN実行コマンド(null固定),
-            "Rule"     : ルールID,
-            "Src"      : データ送信元サービス名,
-            "Dst"      : データ送信先サービス名,
-            "Uid"      : サービス連携名,
-            "Time"     : データ送信時刻,
-            "Timestamp": データ送信時刻のミリ秒,
+            "Code"     : DSN Run command(null fixed),
+            "Rule"     : Rule ID,
+            "Src"      : Service name of data transmission source,
+            "Dst"      : Service name of data transmission destination,
+            "Uid"      : Service cooperation name,
+            "Time"     : Time stamp when data sent,
+            "Timestamp": Millisecond of the time stamp when data sent,
             "Value"    : {
-                "src.path": 送信元パスID,
-                "dst.path": 送信先パスID
+                "src.path": Transmission source path ID,
+                "dst.path": Transmission destination path ID
             }
         }
     }
 
-    (例)
+    (Example)
     {
         "type": "publish",
         "key" : "overlay",
@@ -594,368 +591,4 @@ Webアプリケーション
             "Uid"      : "UV Alarm",
             "Time"     : "10:12:52.015",
             "Timestamp": 15,
-            "Value"    : {
-                "src.path": "229",
-                "dst.path": "230"
-            }
-        }
-    }
-
-
-データ受信通知
-^^^^^^^^^^^^^^^
-::
-
-    (フォーマット)
-    {
-        "type": メソッドタイプ,
-        "key" : NoSQLキー,
-        "data": {
-            "Code"     : DSN実行コマンド,
-            "Rule"     : ルールID,
-            "Src"      : データ送信元サービス名,
-            "Dst"      : データ送信先サービス名,
-            "Uid"      : サービス連携名,
-            "Time"     : データ送信時刻,
-            "Timestamp": データ送信時刻のミリ秒,
-            "Value"    : {
-                "recv.src": データ送信元サービス名,
-                "recv.dst": データ送信先サービス名,
-                "recv.uid": サービス連携名,
-                "recv.no" : null(固定),
-                "src.path": null(固定),
-                "dst.path": null(固定)
-            }
-        }
-    }
-
-    (例)
-    {
-        "type": "publish",
-        "key" : "overlay",
-        "data": {
-            "Code"     : "DATA_RECEIVE : TransitInformation(TwitterJapanSensor -> DataStoreService), 1313[byte]",
-            "Rule"     : "r0",
-            "Src"      : "TwitterJapanSensor",
-            "Dst"      : "DataStoreService",
-            "Uid"      : "TransitInformation",
-            "Time"     : "10:07:25.964",
-            "Timestamp": 964,
-            "Value"    : {
-                "recv.src": "TwitterJapanSensor",
-                "recv.dst": "DataStoreService",
-                "recv.uid": "TransitInformation",
-                "recv.no" : null,
-                "src.path": null,
-                "dst.path": null
-            }
-        }
-    }
-
-
-サービス位置通知
-^^^^^^^^^^^^^^^^^
-::
-
-    (フォーマット)
-    {
-        "type": メソッドタイプ,
-        "key" : NoSQLキー,
-        "data": {
-            "service_key" : サービスID,
-            "service_name": サービス名,
-            "mode"        : アップデートモード(ADD or DEL),
-            "node_ip"     : サービスノードIPアドレス,
-            "Time"        : データ送信時刻,
-            "Timestamp"   : データ送信時刻のミリ秒
-        }
-    }
-
-    (例)
-    {
-        "type": "publish",
-        "key" : "servicelocation",
-        "data": {
-            "service_key" : "DataStore_1",
-            "service_name": "DataStore_1",
-            "mode"        : "ADD",
-            "node_ip"     : "10.2.1.1",
-            "Time"        : "10:07:11.949",
-            "Timestamp"   : 949
-        }
-    }
-
-
-OpenFlowコントローラからwebサーバへの送信データ
-------------------------------------------------
-
-経路情報
-^^^^^^^^^
-::
-
-    (フォーマット)
-    {
-        "type": メソッドタイプ,
-        "key" : NoSQLキー,
-        "data": [
-        {
-            "bandwidth"      : バンド幅(Mbps),
-            "src_switch_id"  : 送信元OpenFlowスイッチID,
-            "src_switch_port": 送信元OpenFlowスイッチポート番号,
-            "dst_switch_id"  : 送信先OpenFlowスイッチID,
-            "dst_switch_port": 送信先OpenFlowスイッチポート番号
-        },
-            ：
-        ]
-    }
-
-    (例)
-    {
-        "type": "publish",
-        "key" : "bandwidth",
-        "data": [
-        {
-            "bandwidth"      : "191.751029746",
-            "src_switch_id"  : "3",
-            "src_switch_port": "204",
-            "dst_switch_id"  : "5",
-            "dst_switch_port": "203"
-        },
-            ：
-        ]
-    }
-
-
-トポロジ情報
-^^^^^^^^^^^^^
-::
-
-    (フォーマット)
-    {
-        "type": メソッドタイプ,
-        "key" : NoSQLキー,
-        "data": [
-        {
-            "switch": {
-                "id" : OpenFlowスイッチID,
-                "ip" : OpenFlowスイッチノードIPアドレス,
-                "mac": OpenFlowスイッチノードMACアドレス(""固定),
-                "switchport": [
-                    {
-                        "ip"  : OpenFlowスイッチポートIPアドレス,
-                        "mac" : OpenFlowスイッチポートMACアドレス,
-                        "port": OpenFlowスイッチポート番号
-                    },
-                    ：
-                ]
-            }
-        },
-            ：
-        ]
-    }
-
-    (例)
-    {
-        "type": "publish",
-        "key" : "topology",
-        "data": [
-        {
-            "switch": {
-                "id": "1",
-                "ip": "172.18.210.254",
-                "mac": "",
-                "switchport": [
-                    {
-                        "ip"  : "10.0.1.254",
-                        "mac" : "00:00:00:00:10:01",
-                        "port": "1"
-                    },
-                    ：
-                ]
-            }
-        },
-            ：
-        ]
-    }
-
-
-サービスノード位置情報
-^^^^^^^^^^^^^^^
-::
-
-    (例)
-    {
-        "type": メソッドタイプ,
-        "key" : NoSQLキー,
-        "data": [
-        {
-            "node_alive" : サービスノード生存状態(true or false),
-            "node_ip"    : サービスノードIPアドレス,
-            "node_mac"   : サービスノードMACアドレス,
-            "sw_id"      : OpenFlowスイッチID,
-            "sw_port"    : OpenFlowスイッチポート番号,
-            "sw_portName": OpenFlowスイッチポート名,
-            "vGW_IP"     : OpenFlowスイッチ(仮想GateWay)IPアドレス
-        },
-            ：
-        ]
-    }
-
-    (例)
-    {
-        "type": "publish",
-        "key" : "nodelocation",
-        "data": [
-        {
-            "node_alive" : true,
-            "node_ip"    : "10.0.1.1",
-            "node_mac"   : "00:50:56:89:6b:fb",
-            "sw_id"      : "1",
-            "sw_port"    : 1,
-            "sw_portName": "eth1.1001",
-            "vGW_IP"     : "10.0.1.254"
-        },
-            ：
-        ]
-    }
-
-
-パス情報
-^^^^^^^^^
-::
-
-    (フォーマット)
-    {
-        "type": メソッドタイプ,
-        "key" : NoSQLキー,
-        "data": [
-        {
-            "srcNode_Mac"    : データ送信元ノードMACアドレス,
-            "srcService_key" : データ送信元サービスキー("dummy"固定),
-            "srcService_name": データ送信元サービス名("dummy"固定),
-            "dstNode_Mac"    : データ送信先ノードMACアドレス,
-            "dstService_key" : データ送信先サービスキー("dummy"固定),
-            "dstService_name": データ送信先サービス名("dummy"固定),
-            "path_id"        : パスID,
-            "switch": [
-                {
-                    "id"         : OpenFlowスイッチID,
-                    "sw_port"    : OpenFlowスイッチポート番号,
-                    "sw_portName": OpenFlowスイッチポート名
-                },
-                ：
-            ]
-        },
-            ：
-        ]
-    }
-
-    (例)
-    {
-        "type": "publish",
-        "key" : "path",
-        "data": [
-        {
-            "srcNode_Mac"    : "00:50:56:89:6c:fc",
-            "srcService_key" : "dummy",
-            "srcService_name": "dummy",
-            "dstNode_Mac"    : "00:50:56:89:6c:fc",
-            "dstService_key" : "dummy",
-            "dstService_name": "dummy",
-            "path_id"        : 201,
-            "switch": [
-                {
-                    "id"         : 2,
-                    "sw_port"    : 2,
-                    "sw_portName": "eth1.1202"
-                },
-                ：
-            ]
-        },
-            ：
-        ]
-    }
-
-
-使用帯域情報
-^^^^^^^^^^^^^
-::
-
-    (フォーマット)
-    {
-        "type": メソッドタイプ,
-        "key" : NoSQLキー,
-        "data": [
-        {
-            "srcService_key" : データ送信元サービスキー("dummy"固定),
-            "srcService_name": データ送信元サービス名("dummy"固定)",
-            "dstService_key" : データ送信先サービスキー("dummy"固定)",
-            "dstService_name": データ送信先サービス名("dummy"固定)",
-            "traffic"        : パストラフィック(Mbps),
-            "path_id"        : パスID
-        },
-            ：
-        ]
-    }
-
-    (例)
-    {
-        "type": "publish",
-        "key" : "traffic",
-        "data": [
-        {
-            "srcService_key" : "dummy",
-            "srcService_name": "dummy",
-            "dstService_key" : "dummy",
-            "dstService_name": "dummy",
-            "traffic"        : 0,
-            "path_id"        : 1
-        },
-            ：
-        ]
-    }
-
-
-コマンド情報
-^^^^^^^^^^^^^
-::
-
-    (フォーマット)
-    {
-        "type": メソッドタイプ,
-        "key" : NoSQLキー,
-        "data": [
-        {
-            "commands": [
-                {
-                    "command"  : ネットワーク制御コマンド
-                    "timestamp": メッセージタイムスタンプ
-                },
-                ：
-                }
-            ],
-            "service_key": サービスキー("dummy"固定)
-        }
-        ]
-    }
-
-    (例)
-    {
-        "type": "publish",
-        "key" : "command",
-        "data": [
-        {
-            "commands": [
-                {
-                    "command"  : "{\"NAME\":\"INITIALIZE_REQUEST\", …
-                    "timestamp": 1416963909.965215
-                },
-                ：
-                }
-            ],
-            "service_key": "dummy"
-        }
-        ]
-    }
-
 
