@@ -2,20 +2,19 @@
 SCN Admin
 =========
 
-SCN Adminとは、SCN(Service-Controlled Networking)が管理しているトポロジー、
-サービス、サービス連携およびSCNの動作を可視化するツールです。
+SCN Admin is a tool that visualizes operations of topology, service, and service cooperation that are managed by Service-Controlled Networking (SCN) as well as SCN operation.
 
-詳細は、ドキュメントの :doc:`docs/intro/overview` を参照してください。
+For more information, please refer to the :doc:`docs/intro/overview` of the document.
 
 
-使用方法
+How to use
+-----------
+
+For more information, please refer to the :doc:`docs/topics/usage` of the document.
+
+
+document
 ---------
 
-詳細は、ドキュメントの :doc:`docs/topics/usage` を参照してください。
-
-
-ドキュメント
--------------
-
-ドキュメントは、docs ディレクトリにあります。
+The document is located in the docs directory.
 
